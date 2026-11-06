@@ -171,3 +171,60 @@ document.querySelectorAll("form").forEach(function (form) {
         }
     });
 });
+
+/* إنشاء حساب وحفظه مؤقتًا في المتصفح */
+
+const registerForm = document.getElementById("registerForm");
+
+if (registerForm) {
+
+    registerForm.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const message = document.getElementById("message");
+
+        if (password.length < 6) {
+            message.textContent = "كلمة المرور يجب ألا تقل عن 6 أحرف.";
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            message.textContent = "كلمتا المرور غير متطابقتين.";
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const existingUser = users.find(user => user.email === email);
+
+        if (existingUser) {
+            message.textContent = "هذا البريد مسجل من قبل.";
+            return;
+        }
+
+        const newUser = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        users.push(newUser);
+
+        localStorage.setItem("users", JSON.stringify(users));
+
+        message.textContent = "تم إنشاء الحساب بنجاح!";
+
+        registerForm.reset();
+
+        setTimeout(function() {
+            window.location.href = "index.html";
+        }, 1500);
+
+    });
+
+}
