@@ -1,0 +1,443 @@
+
+/* =================================
+   1. الألوان والإعدادات العامة
+================================= */
+
+:root {
+    --primary: #07865f;
+    --primary-dark: #056447;
+    --primary-light: #e7f7f0;
+    --accent: #24c995;
+    --white: #ffffff;
+    --background: #f2f8f5;
+    --text: #183b31;
+    --muted: #71847c;
+    --border: #dcebe3;
+    --danger: #d64545;
+    --shadow: 0 12px 35px rgba(5, 100, 71, 0.10);
+    --radius: 18px;
+}
+
+/* =================================
+   2. الإعدادات الأساسية
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    direction: rtl;
+    text-align: right;
+    font-family: Tahoma, Arial, sans-serif;
+    background:
+        radial-gradient(circle at top right, #e1f5eb, transparent 35%),
+        var(--background);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+}
+
+/* =================================
+   3. رأس الصفحة
+================================= */
+
+header {
+    background: linear-gradient(
+        135deg,
+        var(--primary-dark),
+        var(--primary),
+        #12a77a
+    );
+    color: var(--white);
+    text-align: center;
+    padding: 30px 15px;
+    box-shadow: 0 5px 20px rgba(5, 100, 71, 0.18);
+    
+}
+
+header h1 {
+    font-size: 27px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #e1fff2;
+    font-size: 15px;
+}
+
+/* =================================
+   4. المحتوى الرئيسي
+================================= */
+
+main {
+    width: 72%;
+    max-width: 850px;
+    margin: 35px auto;
+    padding: 30px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: var(--primary-dark);
+    font-size: 23px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 12px;
+    text-align: center;
+    text-align: justify;
+}
+
+/* =================================
+   5. النماذج وحقول الإدخال
+================================= */
+
+form {
+    width: 100%;
+}
+
+form div {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 1px;
+    color: var(--text);
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: #fbfefc;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(7, 134, 95, 0.12);
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #a0b1a9;
+}
+
+#text {
+color: white;
+font-style: bold;
+font-size: 20px;
+}
+
+/* =================================
+   6. الأزرار المضيئة
+================================= */
+
+button,
+.btn {
+margin-bottom: 8px;
+    width: 100%;
+    display: inline-block;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 25px;
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
+    color: var(--white);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow:
+        0 5px 15px rgba(7, 134, 95, 0.25),
+        0 0 12px rgba(36, 201, 149, 0.15);
+    transition: all 0.3s ease;
+}
+
+button:hover,
+.btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(
+        135deg,
+        #056447,
+        #0cb982
+    );
+    box-shadow:
+        0 8px 25px rgba(7, 134, 95, 0.35),
+        0 0 20px rgba(36, 201, 149, 0.35);
+}
+
+button:active,
+.btn:active {
+    transform: scale(0.97);
+}
+
+button:focus-visible,
+.btn:focus-visible,
+a:focus-visible {
+    outline: 3px solid #f4bd45;
+    outline-offset: 4px;
+}
+
+/* =================================
+   7. الروابط
+================================= */
+
+a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* =================================
+   8. بطاقات الصفحة الرئيسية
+================================= */
+
+.card,
+article {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 5px 18px rgba(18, 59, 49, 0.06);
+    transition: 0.3s ease;
+}
+
+.card:hover,
+article:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 25px rgba(7, 134, 95, 0.13);
+}
+
+/* =================================
+   9. أزرار الخدمات
+================================= */
+
+.service-btn {
+    display: block;
+    margin: 12px 0;
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border: 1px solid #ccebdc;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.service-btn:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 18px rgba(36, 201, 149, 0.35);
+    text-decoration: none;
+}
+
+/* =================================
+   10. زر تسجيل الخروج
+================================= */
+
+.logout {
+    display: block;
+    width: fit-content;
+    margin: 35px auto 10px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #d94343, #f06b62);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(217, 67, 67, 0.20);
+}
+
+.logout:hover {
+    color: white;
+    background: #bd3030;
+    box-shadow: 0 0 18px rgba(217, 67, 67, 0.35);
+    text-decoration: none;
+}
+
+/* =================================
+   11. الرسائل والتنبيهات
+================================= */
+
+.notice {
+    padding: 15px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border-right: 4px solid var(--primary);
+    margin: 15px 0;
+}
+
+.error {
+    background: #fff0f0;
+    color: #b52d2d;
+    border-right: 4px solid var(--danger);
+    padding: 12px;
+    border-radius: 10px;
+}
+
+/* =================================
+   12. تذييل الصفحات
+================================= */
+
+footer {
+    text-align: center;
+    padding: 22px 12px;
+    margin-top: 35px;
+    background: #e5f3ec;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =================================
+   13. تحسين الهاتف والشاشات الصغيرة
+================================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 23px 12px;
+    }
+
+    header h1 {
+        font-size: 21px;
+    }
+
+    header p {
+        font-size: 13px;
+    }
+
+    main {
+        width: 94%;
+        margin: 20px auto;
+        padding: 20px 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button,
+    .btn {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .card,
+    article {
+        padding: 17px;
+    }
+}
+
+.hero-header{
+position: relative;
+width: 100%;
+height: 300%;
+background-image: linear-gradient(rgba(0, 45, 40, 0.65), rgba(0, 45, 40, 0.65)),
+url("imgs/background.jpg");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: white;
+}
+
+.header-overlay{
+position: relative;
+z-index: 1;
+padding: 25px;
+}
+
+.header-overlay h1 {
+font-size: 32px;
+color: white;
+margin-bottom: 15px;
+text-shadow: 2px 3px 8px #000;
+}
+
+.header-overlay p {
+font-size: 19px;
+color: #e0fff5;
+text-shadow: 1px 2px 5px #000;
+}
+
+@media (max-weidth: 600px) {
+.hero-header {
+min-height: 230px;
+}
+.header-overlay h1 {
+font-size: 32px;
+}
+.header-overlay p{
+font-size: 15px;
+}
+}
+
+.icons {
+display: inline-flex;
+align-items: center;
+}
+
+.icon {
+width: 30px;
+margin-left: 6px;
+}
+
+footer {
+color: white;
+background-color: #121950;
+}
