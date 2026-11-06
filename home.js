@@ -1,178 +1,35 @@
 
-"use strict";
 
 /* =================================
-   1. التحقق من نموذج تسجيل الدخول
+   نظام بلاغات أعطال الكهرباء
+   تسجيل الدخول وإنشاء الحساب
 ================================= */
 
-const loginForm = document.querySelector("#loginForm");
-
-if (loginForm) {
-    loginForm.addEventListener("submit", function (event) {
-        const email = document.querySelector("#email");
-        const password = document.querySelector("#password");
-
-        if (!email.value.trim() || !password.value.trim()) {
-            event.preventDefault();
-            alert("يرجى إدخال البريد الإلكتروني وكلمة المرور");
-            return;
-        }
-
-        if (!email.checkValidity()) {
-            event.preventDefault();
-            alert("يرجى إدخال بريد إلكتروني صحيح");
-        }
-    });
+// قراءة الحسابات المحفوظة
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
 }
 
-
-/* =================================
-   2. التحقق من نموذج تقديم البلاغ
-================================= */
-
-const reportForm = document.querySelector("#reportForm");
-
-if (reportForm) {
-    reportForm.addEventListener("submit", function (event) {
-        const area = document.querySelector("#area");
-        const type = document.querySelector("#type");
-        const details = document.querySelector("#details");
-
-        if (
-            !area.value.trim() ||
-            !type.value ||
-            !details.value.trim()
-        ) {
-            event.preventDefault();
-            alert("يرجى تعبئة جميع بيانات البلاغ");
-            return;
-        }
-
-        if (details.value.trim().length < 10) {
-            event.preventDefault();
-            alert("يرجى كتابة تفاصيل أوضح عن العطل");
-        }
-    });
+// حفظ الحسابات
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
 }
 
+// عرض الرسائل للمستخدم
+function showMessage(message, color) {
+    let messageBox = document.getElementById("message");
 
-/* =================================
-   3. التحقق من نموذج التواصل معنا
-================================= */
-
-const contactForm = document.querySelector("#contactForm");
-
-if (contactForm) {
-    contactForm.addEventListener("submit", function (event) {
-        const name = document.querySelector("#name");
-        const email = document.querySelector("#email");
-        const comment = document.querySelector("#comment");
-
-        if (
-            !name.value.trim() ||
-            !email.value.trim() ||
-            !comment.value.trim()
-        ) {
-            event.preventDefault();
-            alert("يرجى تعبئة جميع الحقول");
-            return;
-        }
-
-        if (!email.checkValidity()) {
-            event.preventDefault();
-            alert("البريد الإلكتروني غير صحيح");
-            return;
-        }
-
-        if (comment.value.trim().length < 5) {
-            event.preventDefault();
-            alert("يرجى كتابة رسالة واضحة");
-        }
-    });
+    if (messageBox) {
+        messageBox.textContent = message;
+        messageBox.style.color = color;
+    } else {
+        alert(message);
+    }
 }
 
-
-/* =================================
-   4. زر الرجوع للصفحة السابقة
-================================= */
-
-const backButtons = document.querySelectorAll(".back-button");
-
-backButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = "index.html";
-        }
-    });
-});
-
-
-/* =================================
-   5. تأكيد تسجيل الخروج
-================================= */
-
-const logoutButtons = document.querySelectorAll(".logout-button");
-
-logoutButtons.forEach(function (button) {
-    button.addEventListener("click", function (event) {
-        const confirmLogout = confirm(
-            "هل أنت متأكد أنك تريد الخروج من حسابك؟"
-        );
-
-        if (!confirmLogout) {
-            event.preventDefault();
-        }
-    });
-});
-
-
-/* =================================
-   6. إظهار وإخفاء كلمة المرور
-================================= */
-
-const passwordField = document.querySelector("#password");
-const showPassword = document.querySelector("#showPassword");
-
-if (passwordField && showPassword) {
-    showPassword.addEventListener("click", function () {
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            showPassword.textContent = "إخفاء كلمة المرور";
-        } else {
-            passwordField.type = "password";
-            showPassword.textContent = "إظهار كلمة المرور";
-        }
-    });
-}
-
-
-/* =================================
-   7. رسالة ترحيب في صفحة الخدمات
-================================= */
-
-const welcomeMessage = document.querySelector("#welcomeMessage");
-
-if (welcomeMessage) {
-    welcomeMessage.textContent =
-        "مرحباً بك في نظام بلاغات أعطال الكهرباء ⚡";
-}
-
-
-/* =================================
-   8. تأكيد إرسال النماذج
-================================= */
-
-document.querySelectorAll("form").forEach(function (form) {
-    form.addEventListener("submit", function () {
-        if (!form.checkValidity()) {
-            form.reportValidity();
-        }
-    });
-});
-
-/* إنشاء حساب وحفظه مؤقتًا في المتصفح */
+// =================================
+// أولاً: إنشاء حساب جديد
+// =================================
 
 const registerForm = document.getElementById("registerForm");
 
@@ -186,27 +43,37 @@ if (registerForm) {
         const email = document.getElementById("email").value.trim().toLowerCase();
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
-        const message = document.getElementById("message");
 
+        // التحقق من الحقول
+        if (!name || !email || !password || !confirmPassword) {
+            showMessage("يرجى ملء جميع الحقول", "red");
+            return;
+        }
+
+        // التحقق من طول كلمة المرور
         if (password.length < 6) {
-            message.textContent = "كلمة المرور يجب ألا تقل عن 6 أحرف.";
+            showMessage("كلمة المرور يجب ألا تقل عن 6 أحرف", "red");
             return;
         }
 
+        // التأكد من تطابق كلمتي المرور
         if (password !== confirmPassword) {
-            message.textContent = "كلمتا المرور غير متطابقتين.";
+            showMessage("كلمتا المرور غير متطابقتين", "red");
             return;
         }
 
-        let users = JSON.parse(localStorage.getItem("users")) || [];
+        // قراءة الحسابات السابقة
+        let users = getUsers();
 
+        // منع تكرار البريد الإلكتروني
         const existingUser = users.find(user => user.email === email);
 
         if (existingUser) {
-            message.textContent = "هذا البريد مسجل من قبل.";
+            showMessage("هذا البريد الإلكتروني مسجل مسبقاً", "red");
             return;
         }
 
+        // إنشاء الحساب
         const newUser = {
             name: name,
             email: email,
@@ -215,16 +82,108 @@ if (registerForm) {
 
         users.push(newUser);
 
-        localStorage.setItem("users", JSON.stringify(users));
+        // حفظ الحساب
+        saveUsers(users);
 
-        message.textContent = "تم إنشاء الحساب بنجاح!";
+        showMessage("تم إنشاء الحساب بنجاح، سيتم تحويلك لتسجيل الدخول", "green");
 
         registerForm.reset();
 
+        // الانتقال إلى تسجيل الدخول
         setTimeout(function() {
             window.location.href = "index.html";
-        }, 1500);
+        }, 1800);
 
+    });
+}
+
+
+// =================================
+// ثانياً: تسجيل الدخول
+// =================================
+
+const loginForm = document.getElementById("loginForm");
+
+if (loginForm) {
+
+    loginForm.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
+
+        // التحقق من إدخال البيانات
+        if (!email || !password) {
+            showMessage("يرجى إدخال البريد الإلكتروني وكلمة المرور", "red");
+            return;
+        }
+
+        // البحث عن الحساب
+        const users = getUsers();
+
+        const foundUser = users.find(function(user) {
+            return user.email === email && user.password === password;
+        });
+
+        if (foundUser) {
+
+            // حفظ بيانات المستخدم الحالي
+            localStorage.setItem("currentUser", JSON.stringify({
+                name: foundUser.name,
+                email: foundUser.email
+            }));
+
+            showMessage("تم تسجيل الدخول بنجاح", "green");
+
+            // الانتقال إلى لوحة المستخدم
+            setTimeout(function() {
+                window.location.href = "dashboard.html";
+            }, 1000);
+
+        } else {
+
+            showMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة", "red");
+
+        }
+
+    });
+}
+
+
+// =================================
+// ثالثاً: تسجيل الخروج
+// =================================
+
+const logoutButtons = document.querySelectorAll(".logout-button");
+
+logoutButtons.forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        const confirmLogout = confirm("هل تريد تسجيل الخروج؟");
+
+        if (confirmLogout) {
+            localStorage.removeItem("currentUser");
+            window.location.href = "index.html";
+        }
+
+    });
+
+});
+
+
+// =================================
+// رابعاً: إظهار وإخفاء كلمة المرور
+// =================================
+
+const showPassword = document.getElementById("showPassword");
+const passwordField = document.getElementById("password");
+
+if (showPassword && passwordField) {
+
+    showPassword.addEventListener("change", function() {
+        passwordField.type = this.checked ? "text" : "password";
     });
 
 }
